@@ -88,6 +88,10 @@ Files you create are saved in `/workspace/group/`. Use this for notes, research,
 
 The family Obsidian vault is mounted at `/workspace/extra/obsidian`. Use it for all "remember this", "save this", or knowledge-storage requests. The vault has its own `CLAUDE.md` with detailed instructions on structure, conventions, and how to handle different types of information.
 
+### Task Capture
+
+When someone says "remind me to..." or similar, create a task file in `/workspace/extra/obsidian/Tasks/`. See the vault's `CLAUDE.md` for the template, assignee mapping, due date inference, and completion rules. Tasks are single actions — multi-step efforts go to `Projects/`.
+
 ### Workspace Files
 
 Files you create in `/workspace/group/` persist between sessions. Use this for working files, drafts, and group-specific data.
