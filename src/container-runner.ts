@@ -432,6 +432,19 @@ async function buildContainerArgs(
   }
   log.info('OneCLI gateway applied', { containerName });
 
+  // Bearer-auth (subscription/OAuth) mode: the provider has set
+  // ANTHROPIC_AUTH_TOKEN so the SDK authenticates via `Authorization: Bearer`
+  // (the gateway rewrites that header from the vault). But OneCLI also injects
+  // a placeholder ANTHROPIC_API_KEY, which makes the SDK additionally send
+  // `x-api-key: placeholder`. Anthropic checks x-api-key first, so the
+  // placeholder triggers a 401 even though the Bearer header is valid. Blank
+  // ANTHROPIC_API_KEY *after* the OneCLI env (last -e wins) so only the Bearer
+  // header goes out. Standard API-key installs (no ANTHROPIC_AUTH_TOKEN) are
+  // untouched and keep using x-api-key rewriting.
+  if (providerContribution.env?.ANTHROPIC_AUTH_TOKEN) {
+    args.push('-e', 'ANTHROPIC_API_KEY=');
+  }
+
   // Host gateway
   args.push(...hostGatewayArgs());
 
